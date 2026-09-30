@@ -1,0 +1,17 @@
+.runtime/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.env
+.env.*
+.DS_Store
+*.csv
+*.parquet
+*.sqlite*
+*.db
+*.log
+reports/local_checks.json
+reports/cloud_closeout.json

@@ -1,0 +1,183 @@
+{
+  "counts": {
+    "hits": 603,
+    "positives": 956,
+    "reviewed": 8629,
+    "rows": 862792,
+    "unique_ids": 862792
+  },
+  "failure_examples": "local only: .runtime/private_failure_examples.json",
+  "fresh_scoring_exact_match": true,
+  "scope": "frozen test, post-hoc diagnostic only; no retuning",
+  "scores_sha256": "af9f1b077d2e59a1986abfa38486ac0dd62a36ef8e3717da6fa0932faabbad11",
+  "slices": {
+    "payment_currency": [
+      {
+        "hits": 13.0,
+        "payment_currency": "Australian Dollar",
+        "positives": 27.0,
+        "reviewed": 149.0,
+        "rows": 23220
+      },
+      {
+        "hits": 0.0,
+        "payment_currency": "Bitcoin",
+        "positives": 10.0,
+        "reviewed": 0.0,
+        "rows": 24327
+      },
+      {
+        "hits": 6.0,
+        "payment_currency": "Brazil Real",
+        "positives": 9.0,
+        "reviewed": 349.0,
+        "rows": 12207
+      },
+      {
+        "hits": 7.0,
+        "payment_currency": "Canadian Dollar",
+        "positives": 15.0,
+        "reviewed": 165.0,
+        "rows": 23893
+      },
+      {
+        "hits": 165.0,
+        "payment_currency": "Euro",
+        "positives": 255.0,
+        "reviewed": 1887.0,
+        "rows": 198231
+      },
+      {
+        "hits": 15.0,
+        "payment_currency": "Mexican Peso",
+        "positives": 22.0,
+        "reviewed": 260.0,
+        "rows": 18563
+      },
+      {
+        "hits": 11.0,
+        "payment_currency": "Ruble",
+        "positives": 22.0,
+        "reviewed": 284.0,
+        "rows": 26513
+      },
+      {
+        "hits": 15.0,
+        "payment_currency": "Rupee",
+        "positives": 20.0,
+        "reviewed": 677.0,
+        "rows": 32200
+      },
+      {
+        "hits": 59.0,
+        "payment_currency": "Saudi Riyal",
+        "positives": 78.0,
+        "reviewed": 557.0,
+        "rows": 15175
+      },
+      {
+        "hits": 8.0,
+        "payment_currency": "Shekel",
+        "positives": 17.0,
+        "reviewed": 382.0,
+        "rows": 32752
+      },
+      {
+        "hits": 17.0,
+        "payment_currency": "Swiss Franc",
+        "positives": 27.0,
+        "reviewed": 75.0,
+        "rows": 39678
+      },
+      {
+        "hits": 6.0,
+        "payment_currency": "UK Pound",
+        "positives": 23.0,
+        "reviewed": 51.0,
+        "rows": 30922
+      },
+      {
+        "hits": 231.0,
+        "payment_currency": "US Dollar",
+        "positives": 368.0,
+        "reviewed": 2898.0,
+        "rows": 322621
+      },
+      {
+        "hits": 26.0,
+        "payment_currency": "Yen",
+        "positives": 32.0,
+        "reviewed": 307.0,
+        "rows": 26289
+      },
+      {
+        "hits": 24.0,
+        "payment_currency": "Yuan",
+        "positives": 31.0,
+        "reviewed": 588.0,
+        "rows": 36201
+      }
+    ],
+    "payment_format": [
+      {
+        "hits": 603.0,
+        "payment_format": "ACH",
+        "positives": 834.0,
+        "reviewed": 8628.0,
+        "rows": 119195
+      },
+      {
+        "hits": 0.0,
+        "payment_format": "Bitcoin",
+        "positives": 10.0,
+        "reviewed": 0.0,
+        "rows": 24329
+      },
+      {
+        "hits": 0.0,
+        "payment_format": "Cash",
+        "positives": 19.0,
+        "reviewed": 0.0,
+        "rows": 91737
+      },
+      {
+        "hits": 0.0,
+        "payment_format": "Cheque",
+        "positives": 60.0,
+        "reviewed": 0.0,
+        "rows": 347008
+      },
+      {
+        "hits": 0.0,
+        "payment_format": "Credit Card",
+        "positives": 33.0,
+        "reviewed": 1.0,
+        "rows": 250247
+      },
+      {
+        "hits": 0.0,
+        "payment_format": "Wire",
+        "positives": 0.0,
+        "reviewed": 0.0,
+        "rows": 30276
+      }
+    ],
+    "review_date": [
+      {
+        "hits": 341.0,
+        "positives": 514.0,
+        "review_date": "2022-09-09",
+        "reviewed": 6545.0,
+        "rows": 654467
+      },
+      {
+        "hits": 262.0,
+        "positives": 442.0,
+        "review_date": "2022-09-10",
+        "reviewed": 2084.0,
+        "rows": 208325
+      }
+    ]
+  },
+  "source_reference_mismatches": 0
+}

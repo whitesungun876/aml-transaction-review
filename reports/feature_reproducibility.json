@@ -1,0 +1,15 @@
+{
+  "algorithm": "Arrow 19.0.1 record-batch IPC, 20000 rows, stored event_time/transaction_id order",
+  "exact_logical_equality": true,
+  "file_byte_equal": false,
+  "file_sha256": [
+    "0f3d03adcd799251c0931ab1205f79f8e9a1eda99d6275e8f16e1d2efa9e2293",
+    "d9240e40971a7cf14af1b35e9a6c02e18193229336f331533fc5d7e36ec200be"
+  ],
+  "logical_sha256": [
+    "e19abfda9b3843861e4b115bfd0709c1909a3988b028e6c5a65d3cfa9f9131c7",
+    "e19abfda9b3843861e4b115bfd0709c1909a3988b028e6c5a65d3cfa9f9131c7"
+  ],
+  "note": "Parquet physical encoding differs; all feature values, metadata fields and row order compared exactly.",
+  "rows": 5077237
+}

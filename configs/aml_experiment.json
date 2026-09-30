@@ -1,0 +1,25 @@
+{
+  "protocol_version": "aml-v1-2026-09-30",
+  "dataset": "IBM AML-Data HI-Small",
+  "release": 8,
+  "source_file": "HI-Small_Trans.csv",
+  "observation_start": "2022-09-01 00:00:00",
+  "observation_end_exclusive": "2022-09-11 00:00:00",
+  "training_start": "2022-09-02 00:00:00",
+  "validation_start": "2022-09-07 00:00:00",
+  "test_start": "2022-09-09 00:00:00",
+  "time_semantics": "source naive timestamps; timezone unspecified",
+  "split_rationale": "One full day warmup, then 5/2/2 full-day train/validation/test. Approximate 60/20/20 adjusted before experiments to complete daily review budgets. Exclude post-primary-period generator tail using provider description, not model results.",
+  "windows_seconds": [3600, 86400],
+  "review_fractions": [0.01, 0.02, 0.05],
+  "seed": 20260930,
+  "threads": 2,
+  "duckdb_memory_limit": "3GB",
+  "models": [
+    {"n_estimators": 100, "max_depth": 3, "learning_rate": 0.08},
+    {"n_estimators": 150, "max_depth": 4, "learning_rate": 0.05}
+  ],
+  "selection_metric": "validation_daily_micro_recall_at_1pct",
+  "minimum_positive_support": 30,
+  "score_type": "raw_margin_not_calibrated_probability"
+}

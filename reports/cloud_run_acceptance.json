@@ -1,0 +1,71 @@
+{
+  "real_cloud_execution_verified": true,
+  "results": {
+    "register": {
+      "action": "register",
+      "checked_rows": 862792,
+      "manifest_identity": "463eb937d5356c706aa906a4c259c5a1889a809dab5abfbaa03d2276c503b536",
+      "model_bundle_version": "2694125da274ea0723c9b9396ac68c6d927dc8e3fb485754c1c0d90dbccf3e48",
+      "model_name": "workspace.default.aml_transaction_review_v1",
+      "model_version": "1",
+      "registered_uri": "models:/workspace.default.aml_transaction_review_v1/1"
+    },
+    "first": {
+      "action": "score",
+      "business_mismatches": 0,
+      "input_rows": 862792,
+      "manifest_identity": "463eb937d5356c706aa906a4c259c5a1889a809dab5abfbaa03d2276c503b536",
+      "model_bundle_version": "2694125da274ea0723c9b9396ac68c6d927dc8e3fb485754c1c0d90dbccf3e48",
+      "model_name": "workspace.default.aml_transaction_review_v1",
+      "model_version": "1",
+      "negative_checks": {},
+      "output_rows": 862792,
+      "review_queue_rows": 8629,
+      "single_writer": true,
+      "table": "workspace.default.aml_transaction_scores_v1",
+      "unique_keys": 862792
+    },
+    "repeat": {
+      "action": "score",
+      "business_mismatches": 0,
+      "input_rows": 862792,
+      "manifest_identity": "463eb937d5356c706aa906a4c259c5a1889a809dab5abfbaa03d2276c503b536",
+      "model_bundle_version": "2694125da274ea0723c9b9396ac68c6d927dc8e3fb485754c1c0d90dbccf3e48",
+      "model_name": "workspace.default.aml_transaction_review_v1",
+      "model_version": "1",
+      "negative_checks": {},
+      "output_rows": 862792,
+      "review_queue_rows": 8629,
+      "single_writer": true,
+      "table": "workspace.default.aml_transaction_scores_v1",
+      "unique_keys": 862792
+    },
+    "verify": {
+      "action": "verify",
+      "business_mismatches": 0,
+      "input_rows": 862792,
+      "manifest_identity": "463eb937d5356c706aa906a4c259c5a1889a809dab5abfbaa03d2276c503b536",
+      "model_bundle_version": "2694125da274ea0723c9b9396ac68c6d927dc8e3fb485754c1c0d90dbccf3e48",
+      "model_name": "workspace.default.aml_transaction_review_v1",
+      "model_version": "1",
+      "negative_checks": {
+        "missing_uc_alias_rejected_without_fallback": true,
+        "persisted_ledger_conflict_rejected": true,
+        "table_versions": {
+          "workspace.default.aml_transaction_batches_v1": 1,
+          "workspace.default.aml_transaction_scores_v1": 3
+        },
+        "table_versions_unchanged": true
+      },
+      "output_rows": 862792,
+      "review_queue_rows": 8629,
+      "single_writer": true,
+      "table": "workspace.default.aml_transaction_scores_v1",
+      "unique_keys": 862792
+    }
+  },
+  "t7_accepted": true,
+  "closeout_evidence": "Private owner-run closeout evidence retained locally; not redistributed",
+  "remaining_acceptance_checks": [],
+  "provenance": "Sanitised historical owner-run report, 2026-09-30; not independent third-party cloud verification. Public CI does not contact Databricks."
+}

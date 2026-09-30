@@ -1,0 +1,11 @@
+{
+  "cloud_write_approved": false,
+  "action": "register",
+  "package_dir": "/Volumes/workspace/default/aml_inputs/cloud-v1",
+  "manifest_sha256": "REPLACE_WITH_VERIFIED_PACKAGE_MANIFEST_SHA256",
+  "model_name": "workspace.default.aml_transaction_review_v1",
+  "output_table": "workspace.default.aml_transaction_scores_v1",
+  "ledger_table": "workspace.default.aml_transaction_batches_v1",
+  "alias": "candidate",
+  "experiment_path": "/Shared/aml-transaction-review-v1"
+}
