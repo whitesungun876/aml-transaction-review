@@ -1,18 +1,55 @@
 # AML Transaction Review
 
-Batch review prioritisation on **IBM synthetic financial transactions**, with temporal features, budget-based evaluation and a Databricks deployment demonstration. A personal portfolio project developed with Codex assistance—not a production AML system or a bank engagement.
+Ranks financial transactions for analyst review under a fixed daily capacity. Trained on the IBM synthetic AML dataset with leakage-safe temporal features, evaluated by review budget rather than AUC, and deployed as a batch scoring job on Databricks.
 
-## Results at a glance
+## Results
 
-The frozen two-day test contains **862,792 transactions / 956 labelled positives**. At a daily 1% review budget, XGBoost selected 8,629 transactions and recovered **603 positives (63.08% recall, 6.99% precision)**. The model was selected using validation data, not test performance.
+Frozen two-day test set: 862,792 transactions, 956 labelled positives (0.11%). The model was selected on validation data only; the test set was never used for tuning. Each day's review queue is capped at a fixed share of that day's transactions.
 
-The limitation matters: every detected positive was ACH; all 122 non-ACH positives were missed at this budget. About 93% of selected transactions were label-negative. These are synthetic transaction labels, not independently verified criminal cases.
+**Positives found in the daily review queue**
 
-On 2026-09-30, owner-run Databricks jobs registered a Unity Catalog model and scored the full held-out set into Delta twice. Both runs retained 862,792 unique composite keys; a separate read-only reconciliation found zero business-field differences. Missing-alias and conflicting-manifest checks also passed. This assumes a single writer and is not a distributed-concurrency or production-SLA claim.
+| Daily budget | Queue size | Random review (expected) | Threshold rule | XGBoost | XGBoost recall | XGBoost precision |
+|---|---:|---:|---:|---:|---:|---:|
+| 1% | 8,629 | 9.6 | 8 | **603** | 63.08% | 6.99% |
+| 2% | 17,257 | 19.1 | 452 | **694** | 72.59% | 4.02% |
+| 5% | 43,141 | 47.8 | 455 | **819** | 85.67% | 1.90% |
 
-## Quick start — no data or cloud required
+- At a 1% budget, the model finds **63x more positives than random review** with the same analyst capacity.
+- The threshold rule (training-set 99th-percentile cut-offs on three account-history features) finds no more than random review at 1%. Its 2% count depends heavily on tied scores: reordering ties alone moves it anywhere between 12 and 956.
+- Over the full ranking, average precision is 0.401 for XGBoost and 0.007 for the rule (random ≈ 0.001).
 
-Use Python 3.12 in a fresh environment:
+**Why evaluate by budget.** The rule ranks well above random overall (AP 0.007 vs 0.001), yet adds nothing at the 1% cut-off analysts actually work to. A global ranking metric would have hidden this, which is why every result here is reported at a fixed daily review capacity.
+
+**Failure analysis.** All 603 detected positives were ACH payments; the 122 non-ACH positives did not reach the top 1%. Ranking is dominated by the largest payment format, which points to per-format budgets or format-specific models as the next step.
+
+**Databricks deployment.** The model was registered in Unity Catalog with numeric version pinning and used to score the full test set into a Delta batch ledger. I ran the job twice: both runs produced 862,792 unique composite keys, and a read-only reconciliation found zero business-field differences. Guard checks for a missing model alias and a conflicting run manifest also passed.
+
+## What I built
+
+**Data layer**
+- Strict positional CSV adapter with stable row identity (source file hash + record number)
+- Labels stored separately from features, so they cannot leak into training inputs
+
+**Temporal features**
+- Account history computed over `[t-window, t)`, excluding same-minute and future events
+- Frozen warm-up / train / validation / test periods split by time
+
+**Modelling and evaluation**
+- Category encoding fitted on training data only
+- Two pre-declared XGBoost candidates, compared against a threshold rule and random review
+- Evaluation at 1%, 2% and 5% daily review budgets, matching how an analyst team works through a queue
+- Deterministic tie-breaking with tie-sensitivity bounds, plus failure slices by day, payment format and currency
+
+**Packaging and deployment**
+- Hash-checked model bundles and immutable batch outputs
+- Rule-based reason context linked back to source rows
+- MLflow packaging, Unity Catalog version pinning, Delta batch ledger and replay verification
+
+The budget evaluator is reused from my earlier [ERP Risk MLOps](https://github.com/whitesungun876/erp-risk-mlops) project and vendored here, so no sibling checkout is needed. See [attribution](NOTICE.md).
+
+## Quick start
+
+No data or cloud account required. Use Python 3.12 in a fresh environment:
 
 ```sh
 python -m venv .venv
@@ -21,34 +58,29 @@ python -m pip install -e .
 python -m unittest discover -s tests -v
 ```
 
-Or use Docker:
+Or with Docker:
 
 ```sh
 docker build -t aml-transaction-review:local .
 docker run --rm --network none aml-transaction-review:local
 ```
 
-Tests use hand-written synthetic fixtures. CI neither downloads IBM data nor accesses Databricks. Direct runtime dependencies are version-pinned; this is not a complete transitive lockfile.
+Tests run on hand-written synthetic fixtures. CI does not download IBM data or access Databricks.
 
-## What is implemented
-
-- Strict positional CSV adapter, source-hash/record-number identities and separate labels.
-- Historical features using `[t-window, t)`; same-minute and future events excluded.
-- Frozen warm-up/train/validation/test periods, train-only category encoding, two XGBoost candidates and a rule baseline.
-- Daily 1/2/5% review budgets, deterministic tie-breaking, tie sensitivity and failure slices.
-- Hash-checked model bundles, immutable local batches and source-linked rule context.
-- MLflow packaging, numeric Unity Catalog version pinning, Delta batch ledger and replay verification.
-
-The generic budget evaluator is vendored from the author's ERP project; this repository does **not** require a sibling checkout or local ERP Docker image. See [attribution](NOTICE.md).
-
-## Evidence and documentation
+## Documentation
 
 - [Acceptance and verification boundaries](ACCEPTANCE.md)
 - [Frozen experiment and failure analysis](reports/AML_EXPERIMENT.md)
 - [Data card and licence metadata](docs/AML_DATA_CARD.md)
 - [Local reproduction guide](docs/AML_RUNBOOK.md)
-- [Cloud execution record and reproduction contract](docs/T7_CLOUD_HANDOFF.md)
-- [Reusable engineering lessons](docs/ENGINEERING_LESSONS.md)
-- [PRD](PRD.md) and [technical design](TECHNICAL_IMPLEMENTATION.md): original design baselines, not claims that every proposed extension shipped.
+- [Cloud execution record](docs/T7_CLOUD_HANDOFF.md)
+- [Engineering lessons](docs/ENGINEERING_LESSONS.md)
+- [PRD](PRD.md) and [technical design](TECHNICAL_IMPLEMENTATION.md) (original design baselines)
 
-Historical metrics precede the standalone packaging changes. No test-set retuning or new full-data training was performed for publication. Private job IDs, billing/account information, raw data, row-level outputs, trained binaries and personal application materials are not distributed. Public summaries are owner-run evidence, not independent third-party validation. Scores are raw margins, not calibrated probabilities; reason codes are rule context, not SHAP or causal explanations.
+## Scope
+
+- Labels come from IBM's synthetic dataset, not confirmed criminal cases.
+- This is a batch prioritisation demo, not a production AML system.
+- Scores are ranking margins, not calibrated probabilities. Reason codes are rule context, not model explanations.
+
+Raw data, row-level outputs, trained binaries and private job IDs are not distributed.
